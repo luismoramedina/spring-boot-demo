@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -63,13 +64,15 @@ public class WebSecurityConf extends WebSecurityConfigurerAdapter {
             System.out.println("MyFilter.doFilter");
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             System.out.println("authentication = " + authentication);
-            if (servletRequest.getParameter("token") != null) {
-                System.out.println("we get token!");
-                ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken("juan", new Object(), authorities);
-                SecurityContextHolder.getContext().setAuthentication(auth);
+            if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+                if (servletRequest.getParameter("token") != null) {
+                    System.out.println("we get token!");
+                    ArrayList<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+                    authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+                    UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken("juan", new Object(), authorities);
+                    SecurityContextHolder.getContext().setAuthentication(auth);
 
+                }
             }
             filterChain.doFilter(servletRequest, servletResponse);
         }
