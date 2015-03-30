@@ -17,9 +17,7 @@ public class DemoApplication {
         String[] beanNames = ctx.getBeanDefinitionNames();
         Arrays.sort(beanNames);
         for (String beanName : beanNames) {
-            if (beanName.startsWith("test")) {
-               System.out.println("#####################" + beanName);
-            }
+           System.out.println("#####################" + beanName);
         }
 
     }
