@@ -1,0 +1,12 @@
+{
+  "name": "test1",
+  "version": "1.0.0",
+  "description": "this is a test",
+  "main": "http://localhost:8080/?token=1",
+  "author": "luis mora",
+  "window": {
+    "toolbar": false,
+    "width": 800,
+    "height": 500
+  }
+}
